@@ -1,6 +1,8 @@
 package algo
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // ListNode ois
 type ListNode struct {
@@ -8,7 +10,8 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func printNode(head *ListNode) {
+// PrintNode is print the node's each Val
+func PrintNode(head *ListNode) {
 	for head.Next != nil {
 		fmt.Print(head.Val, "=>")
 		head = head.Next
@@ -16,7 +19,8 @@ func printNode(head *ListNode) {
 	fmt.Println(head.Val)
 }
 
-func reverseList1(head *ListNode) *ListNode {
+// ReverseList1 -- pick a node and connect
+func ReverseList1(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
 	}
@@ -30,12 +34,28 @@ func reverseList1(head *ListNode) *ListNode {
 	return result
 }
 
-func reverseList2(head *ListNode) *ListNode {
+// ReverseList2 -- recusive solution.
+func ReverseList2(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
 	}
-	p := reverseList2(head.Next)
+	p := ReverseList2(head.Next)
 	head.Next.Next = head
 	head.Next = nil
 	return p
+}
+
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+	if l1 == nil {
+		return l2
+	}
+	if l2 == nil {
+		return l1
+	}
+	if l1.Val < l2.Val {
+		l1.Next = mergeTwoLists(l1.Next, l2)
+		return l1
+	}
+	l2.Next = mergeTwoLists(l1, l2.Next)
+	return l2
 }

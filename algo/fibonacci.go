@@ -1,18 +1,30 @@
 package algo
 
-func memorize(f func(int) int) func(int) int {
-	cache := make(map[int]int)
-	return func(n int) int {
-		if _, ok := cache[n]; !ok {
-			cache[n] = f(n)
-		}
-		return cache[n]
-	}
-}
-
-func fibo(n int) int {
+// Memorize is memorize the result with map. this prevents from recalculation
+func Memorize(n int, memo map[int]int) int {
 	if n < 2 {
 		return n
 	}
-	return fibo(n-2) + fibo(n-1)
+	if _, ok := memo[n]; !ok {
+		memo[n] = Memorize(n-2, memo) + Memorize(n-1, memo)
+	}
+	return memo[n]
+}
+
+// Fibo return fibonacci number
+func Fibo(n int) int {
+	if n < 2 {
+		return n
+	}
+	return Fibo(n-2) + Fibo(n-1)
+}
+
+//Fibo2 -- return fibonnacci num
+// botton up solution
+func Fibo2(n int) int {
+	x, y := 0, 1
+	for i := 0; i < n; i++ {
+		x, y = y, x+y
+	}
+	return x
 }
